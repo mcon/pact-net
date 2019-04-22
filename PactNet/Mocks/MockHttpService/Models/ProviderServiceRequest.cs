@@ -1,6 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Google.Protobuf;
+using Google.Protobuf.Reflection;
+using Google.Protobuf.WellKnownTypes;
 using Newtonsoft.Json;
 using PactNet.Configuration.Json.Converters;
+using PactNet.ProtobufReflection;
 
 namespace PactNet.Mocks.MockHttpService.Models
 {
@@ -18,6 +24,31 @@ namespace PactNet.Mocks.MockHttpService.Models
 
         [JsonProperty(PropertyName = "query", NullValueHandling = NullValueHandling.Ignore)]
         public object Query { get; set; }
+        
+        // Encoding object with type and description, generate this dynamically if the body is an IMessage
+        [JsonProperty(PropertyName = "encoding", NullValueHandling = NullValueHandling.Ignore)]
+        public object Encoding {
+            get
+            {
+                if (_bodyWasSet &&  _body is IMessage)
+                {
+                    var messageType = (IMessage) _body;
+                    var descriptor = messageType.Descriptor.File;
+                    
+                    return new
+                    {
+                        Type = "protobuf",
+                        Description = new
+                        {
+                            MessageName = messageType.Descriptor.Name,
+                            FileDescriptorSet = FileDescriptorSetBytes.Get(descriptor)
+                        }
+                    };
+                }
+
+                return null;
+            } 
+        }
 
         [JsonProperty(PropertyName = "headers", NullValueHandling = NullValueHandling.Ignore)]
         [JsonConverter(typeof(PreserveCasingDictionaryConverter))]

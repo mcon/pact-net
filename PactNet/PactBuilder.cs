@@ -17,7 +17,8 @@ namespace PactNet
 
         private IMockProviderService _mockProviderService;
 
-        internal PactBuilder(
+        // TODO: Refactor this factory into a class/interface - this type signature is too crazy to expose.
+        public PactBuilder(
             Func<int, bool, string, string, IPAddress, JsonSerializerSettings, string, string, IMockProviderService>
                 mockProviderServiceFactory)
         {
