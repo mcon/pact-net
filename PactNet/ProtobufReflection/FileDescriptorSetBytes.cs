@@ -1,11 +1,5 @@
-using System;
-using System.ComponentModel.Design;
-using System.Dynamic;
 using System.Linq;
-using System.Reflection;
-using System.Threading;
 using Google.Protobuf;
-using Google.Protobuf.Collections;
 using Google.Protobuf.Reflection;
 
 namespace PactNet.ProtobufReflection
