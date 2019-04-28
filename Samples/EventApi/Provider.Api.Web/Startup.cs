@@ -1,44 +1,51 @@
-﻿using System.Web.Http;
-using Autofac;
-using Autofac.Integration.WebApi;
-using Microsoft.Owin;
-using Microsoft.Owin.Security.OAuth;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using Owin;
-using Provider.Api.Web;
-using Provider.Api.Web.Controllers;
+﻿using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
-[assembly: OwinStartup("ApiConfiguration", typeof(Startup))]
 namespace Provider.Api.Web
 {
     public class Startup
     {
-        public void Configuration(IAppBuilder app)
+        public Startup(IConfiguration configuration)
         {
-            var config = new HttpConfiguration();
+            Configuration = configuration;
+        }
 
-            // Owin Middleware; we use token middleware for requests that require authorization.
-            var oAuthBearerOptions = new OAuthBearerAuthenticationOptions();
-            app.UseOAuthBearerAuthentication(oAuthBearerOptions);
+        public static void Main(string[] args)
+        {
+            BuildWebHost(args).Run();
+        }
 
-            config.MapHttpAttributeRoutes();
+        public static IWebHost BuildWebHost(string[] args) =>
+            CreateWebHostBuilder(args).Build();
 
-            app.UseWebApi(config);
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            return WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .UseUrls("http://localhost:9222");
+        }
+        public IConfiguration Configuration { get; }
 
-            var json = config.Formatters.JsonFormatter;
-            json.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            json.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-            json.SerializerSettings.Formatting = Formatting.None;
-            config.Formatters.Remove(config.Formatters.XmlFormatter);
+        // This method gets called by the runtime. Use this method to add services to the container.
+        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
 
-            var builder = new ContainerBuilder();
-            
-            builder.RegisterApiControllers(typeof(EventsController).Assembly);
-            var container = builder.Build();
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
-            app.UseAutofacMiddleware(container);
-            app.UseAutofacWebApi(config);
+            app.UseMvc();
         }
     }
 }
