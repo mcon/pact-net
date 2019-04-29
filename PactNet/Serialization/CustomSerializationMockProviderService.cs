@@ -17,15 +17,19 @@ namespace ProtobufPactMockWrapper
         private ProviderServiceRequest _request;
         private ProviderServiceResponse _response;
 
-        public Uri BaseUri { get; }
+        private Uri RubyCoreBaseUri { get; }
+        private Uri CustomSerializationProxyBaseUri { get; }
         
         public CustomSerializationMockProvider(
             int port, bool enableSsl, string consumerName, string providerName, PactConfig config, IPAddress ipAddress, 
             Newtonsoft.Json.JsonSerializerSettings jsonSerializerSettings, string sslCert, string sslKeys)
         {
-            BaseUri = new Uri( $"{(enableSsl ? "https" : "http")}://localhost:{port}");
-            _adminHttpClient = new AdminHttpClient(BaseUri, jsonSerializerSettings);
-            _host = new CustomSerializationHttpHost(BaseUri, consumerName, providerName, config, ipAddress, sslCert, sslKeys);
+            RubyCoreBaseUri = new Uri( $"{(enableSsl ? "https" : "http")}://localhost:{port}");
+            CustomSerializationProxyBaseUri = new Uri( $"{(enableSsl ? "https" : "http")}://localhost:{port+1}");
+            _adminHttpClient = new AdminHttpClient(CustomSerializationProxyBaseUri, jsonSerializerSettings);
+            _host = new CustomSerializationHttpHost(
+                CustomSerializationProxyBaseUri, RubyCoreBaseUri, consumerName, providerName, config, 
+                ipAddress, sslCert, sslKeys);
         }
         public IMockProviderService Given(string providerState)
         {

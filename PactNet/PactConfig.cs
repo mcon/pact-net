@@ -27,6 +27,8 @@ namespace PactNet
         internal string LoggerName;
 
         public string MonkeyPatchFile { get; set; }
+        
+        public bool TestingNonJsonSerialization { get; set; }
 
         public PactConfig()
         {
@@ -39,6 +41,8 @@ namespace PactNet
             {
                 new ConsoleOutput()
             };
+            // TODO: Once PactBuilder and friends are refactored, we can provide a better way to set this
+            TestingNonJsonSerialization = true;
         }
 
         private static string ConvertToDirectory(string path)
