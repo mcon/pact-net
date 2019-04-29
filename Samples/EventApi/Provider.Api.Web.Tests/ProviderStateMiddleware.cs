@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Owin;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using static System.String;
 
@@ -15,12 +14,10 @@ namespace Provider.Api.Web.Tests
     public class ProviderStateMiddleware
     {
         private const string ConsumerName = "Event API Consumer";
-        private readonly Func<IDictionary<string, object>, Task> m_next;
         private readonly IDictionary<string, Action> _providerStates;
         
-        public ProviderStateMiddleware(Func<IDictionary<string, object>, Task> next)
+        public ProviderStateMiddleware()
         {
-            m_next = next;
             _providerStates = new Dictionary<string, Action>
             {
                 {
@@ -53,10 +50,8 @@ namespace Provider.Api.Web.Tests
             
         }
 
-        public async Task Invoke(IDictionary<string, object> environment)
+        public async Task Invoke(HttpContext context, Func<Task> next)
         {
-            IOwinContext context = new OwinContext(environment);
-
             if (context.Request.Path.Value == "/provider-states")
             {
                 context.Response.StatusCode = (int)HttpStatusCode.OK;
@@ -85,7 +80,7 @@ namespace Provider.Api.Web.Tests
             }
             else
             {
-                await m_next.Invoke(environment);
+                await next.Invoke();
             }
         }
     }

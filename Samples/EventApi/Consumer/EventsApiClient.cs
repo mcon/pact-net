@@ -50,7 +50,7 @@ namespace Consumer
             }
             finally
             {
-                Dispose(request, response);
+                Dispose(request, response.Result);
             }
 
             return false;
@@ -61,11 +61,11 @@ namespace Consumer
             var statusRequest = new HttpRequestMessage(HttpMethod.Get, "/stats/status");
             statusRequest.Headers.Add("Accept", "application/json");
 
-            var statusResponse = _httpClient.SendAsync(statusRequest);
+            var statusResponse = _httpClient.SendAsync(statusRequest).Result;
 
             try
             {
-                var statusResult = statusResponse.Result;
+                var statusResult = statusResponse;
                 var statusResponseBody = new StatusResponseBody();
 
                 if (statusResult.StatusCode == HttpStatusCode.OK)
@@ -100,7 +100,7 @@ namespace Consumer
                         }
                         finally
                         {
-                            Dispose(uptimeRequest, uptimeResponse);
+                            Dispose(uptimeRequest, uptimeResponse.Result);
                         }
                     }
                 }
@@ -135,7 +135,7 @@ namespace Consumer
             }
             finally
             {
-                Dispose(request, response);
+                Dispose(request, response.Result);
             }
 
             return null;
@@ -160,7 +160,7 @@ namespace Consumer
             }
             finally
             {
-                Dispose(request, response);
+                Dispose(request, response.Result);
             }
 
             return null;
@@ -185,7 +185,7 @@ namespace Consumer
             }
             finally
             {
-                Dispose(request, response);
+                Dispose(request, response.Result);
             }
 
             return null;
@@ -219,7 +219,7 @@ namespace Consumer
             }
             finally
             {
-                Dispose(request, response);
+                Dispose(request, response.Result);
             }
         }
 
