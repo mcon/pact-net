@@ -45,8 +45,7 @@ namespace ProtobufPactMockWrapper
 
         private void StartWrapper()
         {
-            var config = new CustomSerializationHostConfig(_baseUri.Port, _config, _baseUri.Host, _sslCert, _sslKey, _rubyCoreUri);
-            // TODO: Start go mock server proxy
+            var config = new CustomSerializationHostConfig(_baseUri.Port, _config.PactDir, _baseUri.Host, _sslCert, _sslKey, _rubyCoreUri);
             var startInfo = new ProcessStartInfo
             {
 #if USE_NET4X
@@ -61,7 +60,6 @@ namespace ProtobufPactMockWrapper
                 CreateNoWindow = true
             };
             
-            // TODO: Do proper redirects of output
             var process = new Process{StartInfo = startInfo};
             process.OutputDataReceived += WriteLineToOutput;
             process.ErrorDataReceived += WriteLineToOutput;

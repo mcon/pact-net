@@ -43,9 +43,10 @@ namespace Provider.Api.Web.Tests
 
             var server = new Thread(() => webHostBuilder.Build().Run());
             server.Start();
-            Task.Delay(TimeSpan.FromSeconds(3)).Wait(); // TODO MC: Remove this wait, put a proper thing in here
+            Task.Delay(TimeSpan.FromSeconds(2)).Wait(); // TODO MC: Remove this wait, put a proper thing in here
             
             //Act / Assert
+            // TODO: provide a mechanism making using the serialization proxy optional.
             IPactVerifier pactVerifier = new PactVerifier(config);
             pactVerifier
                 .ProviderState($"{serviceUri}/provider-states")

@@ -31,6 +31,10 @@ namespace Provider.Api.Web.Tests
                 {
                     "there is one event with type 'DetailsView'",
                     EnsureOneDetailsViewEventExists
+                },
+                {
+                    "There is a something with id 'tester'",
+                    InsertEventsIntoDatabase
                 }
             };
         }

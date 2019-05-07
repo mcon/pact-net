@@ -2,6 +2,11 @@
 using PactNet.Core;
 using static System.String;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading;
+using ProtobufPactMockWrapper;
 
 namespace PactNet
 {
@@ -123,10 +128,64 @@ namespace PactNet
                     { "PACT_PROVIDER_STATE", providerState }
                 };
             }
+            
+            var proxyUri = new UriBuilder(ServiceBaseUri) {Port = ServiceBaseUri.Port + 1}.Uri;
+            
+            // TODO: Should be in its own class with different set of config, and only launch this if asked to.
+            var custSerializationConfig = new CustomSerializationHostConfig(proxyUri.Port, 
+                PactFileUri, proxyUri.Host, null, null, ServiceBaseUri, true);
+            var startInfo = new ProcessStartInfo
+            {
+#if USE_NET4X
+                WindowStyle = ProcessWindowStyle.Hidden,
+#endif
+                FileName = custSerializationConfig.Script,
+                Arguments = custSerializationConfig.Arguments,
+                UseShellExecute = false,
+                RedirectStandardInput = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+            
+            var process = new Process{StartInfo = startInfo};
+            process.OutputDataReceived += WriteLineToOutput;
+            process.ErrorDataReceived += WriteLineToOutput;
+            
+            var success = process.Start();
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+            
+            if (!success)
+            {
+                throw new PactFailureException("Could not start the Pact Core Host");
+            }
+            
+            // TODO: Actually perform healthcheck - sleep for now
+            Thread.Sleep(3000);
 
             var pactVerifier = _pactVerifierHostFactory(
-                new PactVerifierHostConfig(ServiceBaseUri, PactFileUri, PactUriOptions, ProviderStateSetupUri, _config, env));
+                new PactVerifierHostConfig(proxyUri, PactFileUri, PactUriOptions, ProviderStateSetupUri, _config, env));
             pactVerifier.Start();
+        }
+        
+        private void WriteLineToOutput(object sender, DataReceivedEventArgs eventArgs)
+        {
+            if (eventArgs.Data != null)
+            {
+                WriteToOutputters(Regex.Replace(eventArgs.Data, @"\e\[(\d+;)*(\d+)?[ABCDHJKfmsu]", ""));
+            }
+        }
+
+        private void WriteToOutputters(string line)
+        {
+            if (_config.Outputters != null && _config.Outputters.Any())
+            {
+                foreach (var output in _config.Outputters)
+                {
+                    output.WriteLine(line);
+                }
+            }
         }
     }
 }
