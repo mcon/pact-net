@@ -18,7 +18,8 @@ namespace Provider.Api.Web.Controllers
                 Id = 1,
                 Email = "foo@bar.com",
             };
-            return File(person.ToByteArray(), "application/octet-stream");
+            // TODO: Need to handle non "application-json" contentType in the serialization proxy.
+            return File(person.ToByteArray(), "application/json");
         }
     }
 }
