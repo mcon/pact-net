@@ -42,10 +42,10 @@ namespace Consumer.Tests
                     {
                         { "Content-Type", "application/json; charset=utf-8" }
                     },
-                    Body = new 
+                    Body = Match.Type(new 
                     {
                         message = "Authorization has been denied for this request."
-                    }
+                    })
                 });
 
             var consumer = new EventsApiClient(_mockProviderServiceBaseUri);

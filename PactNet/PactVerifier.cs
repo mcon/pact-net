@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using PactNet.Core;
 using static System.String;
 using System.Collections.Generic;
@@ -14,6 +14,7 @@ namespace PactNet
     {
         private readonly PactVerifierConfig _config;
         private readonly Func<PactVerifierHostConfig, IPactCoreHost> _pactVerifierHostFactory;
+        private Process _process;
 
         public Uri ProviderStateSetupUri { get; private set; }
         public Uri ServiceBaseUri { get; private set; }
@@ -148,13 +149,14 @@ namespace PactNet
                 CreateNoWindow = true
             };
             
-            var process = new Process{StartInfo = startInfo};
-            process.OutputDataReceived += WriteLineToOutput;
-            process.ErrorDataReceived += WriteLineToOutput;
+            _process = new Process{StartInfo = startInfo};
+            _process.OutputDataReceived += WriteLineToOutput;
+            _process.ErrorDataReceived += WriteLineToOutput;
+            _process.Exited += HandleProcessExit;
             
-            var success = process.Start();
-            process.BeginOutputReadLine();
-            process.BeginErrorReadLine();
+            var success = _process.Start();
+            _process.BeginOutputReadLine();
+            _process.BeginErrorReadLine();
             
             if (!success)
             {
@@ -167,6 +169,14 @@ namespace PactNet
             var pactVerifier = _pactVerifierHostFactory(
                 new PactVerifierHostConfig(proxyUri, PactFileUri, PactUriOptions, ProviderStateSetupUri, _config, env));
             pactVerifier.Start();
+        }
+
+        private void HandleProcessExit(object sender, EventArgs e)
+        {
+            if (_process.HasExited && _process.ExitCode != 0)
+            {
+                Console.WriteLine($"Unexpected exit of process: {_process.StartInfo.FileName} exit code: {_process.ExitCode}");
+            }
         }
         
         private void WriteLineToOutput(object sender, DataReceivedEventArgs eventArgs)

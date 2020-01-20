@@ -3,6 +3,8 @@ using System.IO;
 using PactNet;
 using PactNet.Mocks.MockHttpService;
 using PactNet.Models;
+using ProtobufPactMockWrapper;
+using Xunit.Sdk;
 
 namespace Consumer.Tests
 {
@@ -16,12 +18,18 @@ namespace Consumer.Tests
 
         public ConsumerEventApiPact()
         {
-            PactBuilder = new PactBuilder(new PactConfig
+            var pactConfig = new PactConfig
             {
                 SpecificationVersion = "2.0.0",
-                LogDir = $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}logs{Path.DirectorySeparatorChar}",
-                PactDir = $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}pacts{Path.DirectorySeparatorChar}"
-            })
+                LogDir =
+                    $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}logs{Path.DirectorySeparatorChar}",
+                PactDir =
+                    $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}pacts{Path.DirectorySeparatorChar}"
+            };
+            PactBuilder = new PactBuilder((i, b, arg3, arg4, arg5, arg6, arg7, arg8) => 
+                new CustomSerializationMockProvider(
+                    i, b, arg3, arg4, pactConfig, 
+                    arg5, arg6, arg7, arg8))
                 .ServiceConsumer("Event API Consumer")
                 .HasPactWith("Event API");
 

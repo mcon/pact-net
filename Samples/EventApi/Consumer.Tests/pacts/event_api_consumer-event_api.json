@@ -7,228 +7,6 @@
   },
   "interactions": [
     {
-      "description": "A GET request to retrieve the something",
-      "providerState": "There is a something with id 'tester'",
-      "request": {
-        "headers": {
-          "Accept": "application/octet-stream"
-        },
-        "method": "get",
-        "path": "/api/values"
-      },
-      "response": {
-        "body": {
-          "email": "foo@bar.com",
-          "id": 1,
-          "name": "foo"
-        },
-        "encoding": {
-          "description": {
-            "fileDescriptorSet": [
-              10,
-              85,
-              10,
-              14,
-              99,
-              111,
-              110,
-              116,
-              114,
-              97,
-              99,
-              116,
-              46,
-              112,
-              114,
-              111,
-              116,
-              111,
-              18,
-              8,
-              99,
-              111,
-              110,
-              116,
-              114,
-              97,
-              99,
-              116,
-              34,
-              49,
-              10,
-              6,
-              80,
-              101,
-              114,
-              115,
-              111,
-              110,
-              18,
-              12,
-              10,
-              4,
-              110,
-              97,
-              109,
-              101,
-              24,
-              1,
-              32,
-              1,
-              40,
-              9,
-              18,
-              10,
-              10,
-              2,
-              105,
-              100,
-              24,
-              2,
-              32,
-              1,
-              40,
-              5,
-              18,
-              13,
-              10,
-              5,
-              101,
-              109,
-              97,
-              105,
-              108,
-              24,
-              3,
-              32,
-              1,
-              40,
-              9,
-              98,
-              6,
-              112,
-              114,
-              111,
-              116,
-              111,
-              51
-            ],
-            "messageName": "Person"
-          },
-          "type": "protobuf"
-        },
-        "status": 200
-      }
-    },
-    {
-      "description": "a request to check the api status",
-      "request": {
-        "method": "get",
-        "path": "/stats/status",
-        "headers": {
-          "Accept": "application/json"
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        "body": {
-          "alive": true,
-          "_links": {
-            "uptime": {
-              "href": "/stats/uptime"
-            }
-          }
-        }
-      }
-    },
-    {
-      "description": "a request to check the api uptime",
-      "request": {
-        "method": "get",
-        "path": "/stats/uptime",
-        "headers": {
-          "Accept": "application/json"
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        "body": {
-          "upSince": "2014-06-27T23:51:12Z"
-        }
-      }
-    },
-    {
-      "description": "a request to retrieve event with id '83f9262f-28f1-4703-ab1a-8cfd9e8249c9'",
-      "providerState": "there is an event with id '83f9262f-28f1-4703-ab1a-8cfd9e8249c9'",
-      "request": {
-        "method": "get",
-        "path": "/events/83f9262f-28f1-4703-ab1a-8cfd9e8249c9",
-        "headers": {
-          "Accept": "application/json"
-        },
-        "matchingRules": {
-          "$.path": {
-            "match": "regex",
-            "regex": "^\\/events\\/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
-          }
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/json; charset=utf-8",
-          "Server": "RubyServer"
-        },
-        "body": {
-          "eventId": "83f9262f-28f1-4703-ab1a-8cfd9e8249c9",
-          "eventType": "DetailsView",
-          "timestamp": "2017-11-11T03:20:27.9990014Z"
-        },
-        "matchingRules": {
-          "$.headers.Server": {
-            "match": "type"
-          },
-          "$.body.eventId": {
-            "match": "regex",
-            "regex": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
-          },
-          "$.body.eventType": {
-            "match": "type"
-          },
-          "$.body.timestamp": {
-            "match": "regex",
-            "regex": "^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[0-1]|0[1-9]|[1-2][0-9])T(2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?(Z|[+-](?:2[0-3]|[0-1][0-9]):[0-5][0-9])?$"
-          }
-        }
-      }
-    },
-    {
-      "description": "a request to retrieve all events with no authorization",
-      "providerState": "there are events with ids '45D80D13-D5A2-48D7-8353-CBB4C0EAABF5', '83F9262F-28F1-4703-AB1A-8CFD9E8249C9' and '3E83A96B-2A0C-49B1-9959-26DF23F83AEB'",
-      "request": {
-        "method": "get",
-        "path": "/events",
-        "headers": {
-          "Accept": "application/json"
-        }
-      },
-      "response": {
-        "status": 401,
-        "headers": {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        "body": {
-          "message": "Authorization has been denied for this request."
-        }
-      }
-    },
-    {
       "description": "a request to retrieve events with type 'DetailsView'",
       "providerState": "there is one event with type 'DetailsView'",
       "request": {
@@ -255,6 +33,26 @@
             "eventType": "DetailsView"
           }
         ]
+      }
+    },
+    {
+      "description": "a request to create a new event",
+      "request": {
+        "method": "post",
+        "path": "/events",
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "eventId": "1f587704-2dcc-4313-a233-7b62b4b469db",
+          "timestamp": "2011-07-01T01:41:03.0000000",
+          "eventType": "DetailsView"
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+        }
       }
     },
     {
@@ -293,22 +91,115 @@
       }
     },
     {
-      "description": "a request to create a new event",
+      "description": "a request to check the api status",
       "request": {
-        "method": "post",
-        "path": "/events",
+        "method": "get",
+        "path": "/stats/status",
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "response": {
+        "status": 200,
         "headers": {
           "Content-Type": "application/json; charset=utf-8"
         },
         "body": {
-          "eventId": "1f587704-2dcc-4313-a233-7b62b4b469db",
-          "timestamp": "2011-07-01T01:41:03.0000000",
-          "eventType": "DetailsView"
+          "alive": true,
+          "_links": {
+            "uptime": {
+              "href": "/stats/uptime"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a request to retrieve event with id '83f9262f-28f1-4703-ab1a-8cfd9e8249c9'",
+      "providerState": "there is an event with id '83f9262f-28f1-4703-ab1a-8cfd9e8249c9'",
+      "request": {
+        "method": "get",
+        "path": "/events/83f9262f-28f1-4703-ab1a-8cfd9e8249c9",
+        "headers": {
+          "Accept": "application/json"
+        },
+        "matchingRules": {
+          "$.path": {
+            "match": "regex",
+            "regex": "^\\/events\\/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+          }
         }
       },
       "response": {
-        "status": 201,
+        "status": 200,
         "headers": {
+          "Content-Type": "application/json; charset=utf-8",
+          "Server": "RubyServer"
+        },
+        "body": {
+          "eventId": "83f9262f-28f1-4703-ab1a-8cfd9e8249c9",
+          "eventType": "DetailsView",
+          "timestamp": "2020-01-20T14:32:33.7238618Z"
+        },
+        "matchingRules": {
+          "$.headers.Server": {
+            "match": "type"
+          },
+          "$.body.eventId": {
+            "match": "regex",
+            "regex": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+          },
+          "$.body.eventType": {
+            "match": "type"
+          },
+          "$.body.timestamp": {
+            "match": "regex",
+            "regex": "^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[0-1]|0[1-9]|[1-2][0-9])T(2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?(Z|[+-](?:2[0-3]|[0-1][0-9]):[0-5][0-9])?$"
+          }
+        }
+      }
+    },
+    {
+      "description": "a request to check the api uptime",
+      "request": {
+        "method": "get",
+        "path": "/stats/uptime",
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "upSince": "2014-06-27T23:51:12Z"
+        }
+      }
+    },
+    {
+      "description": "a request to retrieve all events with no authorization",
+      "providerState": "there are events with ids '45D80D13-D5A2-48D7-8353-CBB4C0EAABF5', '83F9262F-28F1-4703-AB1A-8CFD9E8249C9' and '3E83A96B-2A0C-49B1-9959-26DF23F83AEB'",
+      "request": {
+        "method": "get",
+        "path": "/events",
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "message": "Authorization has been denied for this request."
+        },
+        "matchingRules": {
+          "$.body": {
+            "match": "type"
+          }
         }
       }
     }

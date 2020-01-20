@@ -222,6 +222,29 @@ namespace Consumer
                 Dispose(request, response.Result);
             }
         }
+        
+        public Contract.Person GetPerson(int? number)
+        {
+            var query = "/api/values" + (number == null ? "" : number.ToString());
+            var request = new HttpRequestMessage(HttpMethod.Get, query);
+
+            var response = _httpClient.SendAsync(request);
+
+            var content = response.Result.Content.ReadAsByteArrayAsync().Result;
+            var status = response.Result.StatusCode;
+
+            var reasonPhrase = response.Result.ReasonPhrase;
+
+            request.Dispose();
+            response.Dispose();
+
+            if (status == HttpStatusCode.OK)
+            {
+                return Contract.Person.Parser.ParseFrom(content);
+            }
+
+            throw new Exception(reasonPhrase);
+        }
 
         private static void RaiseResponseError(HttpRequestMessage failedRequest, HttpResponseMessage failedResponse)
         {

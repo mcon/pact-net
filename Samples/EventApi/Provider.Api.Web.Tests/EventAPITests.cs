@@ -43,7 +43,7 @@ namespace Provider.Api.Web.Tests
 
             var server = new Thread(() => webHostBuilder.Build().Run());
             server.Start();
-            Task.Delay(TimeSpan.FromSeconds(2)).Wait(); // TODO MC: Remove this wait, put a proper thing in here
+            Task.Delay(TimeSpan.FromSeconds(2)).Wait(); // TODO: In stead of sleeping, check for server readiness
             
             //Act / Assert
             // TODO: provide a mechanism making using the serialization proxy optional.
@@ -53,7 +53,7 @@ namespace Provider.Api.Web.Tests
                 .ServiceProvider("Event API", serviceUri)
                 .HonoursPactWith("Event API Consumer")
                 .PactUri(
-                    $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}Consumer.Tests{Path.DirectorySeparatorChar}pacts{Path.DirectorySeparatorChar}event_api_consumer-event_api.json")
+                    $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}Consumer.Tests{Path.DirectorySeparatorChar}pacts{Path.DirectorySeparatorChar}event_api_consumer-event_api.proto.json")
                 .Verify();
         }
 

@@ -74,7 +74,6 @@ namespace ProtobufPactMockWrapper
             }
 
             
-            
             // TODO: Actually perform healthcheck - sleep for now
             Thread.Sleep(3000);
         }
@@ -88,7 +87,7 @@ namespace ProtobufPactMockWrapper
 
         private void StopWrapper()
         {
-            // TODO: Should treat the web server as a process and not a thread.
+            // TODO: Should kill the serialization-proxy at this point
             //_wrapperHost.Abort();
         }
         
