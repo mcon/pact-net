@@ -23,7 +23,6 @@ namespace Provider.Api.Web.Tests
         public EventApiTests(ITestOutputHelper output)
         {
             _output = output;
-//            _appFactory = new WebApplicationFactory<Startup>();
         }
 
         [Fact]

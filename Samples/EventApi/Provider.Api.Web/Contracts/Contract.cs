@@ -29,7 +29,7 @@ namespace Contract {
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Contract.Person), global::Contract.Person.Parser, new[]{ "Name", "Id", "Email" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Contract.Person), global::Contract.Person.Parser, new[]{ "name", "id", "email" }, null, null, null)
           }));
     }
     #endregion
@@ -73,10 +73,10 @@ namespace Contract {
     }
 
     /// <summary>Field number for the "name" field.</summary>
-    public const int NameFieldNumber = 1;
+    public const int nameFieldNumber = 1;
     private string name_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Name {
+    public string name {
       get { return name_; }
       set {
         name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -84,10 +84,10 @@ namespace Contract {
     }
 
     /// <summary>Field number for the "id" field.</summary>
-    public const int IdFieldNumber = 2;
+    public const int idFieldNumber = 2;
     private int id_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int Id {
+    public int id {
       get { return id_; }
       set {
         id_ = value;
@@ -95,10 +95,10 @@ namespace Contract {
     }
 
     /// <summary>Field number for the "email" field.</summary>
-    public const int EmailFieldNumber = 3;
+    public const int emailFieldNumber = 3;
     private string email_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Email {
+    public string email {
       get { return email_; }
       set {
         email_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -118,18 +118,18 @@ namespace Contract {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (Name != other.Name) return false;
-      if (Id != other.Id) return false;
-      if (Email != other.Email) return false;
+      if (name != other.name) return false;
+      if (id != other.id) return false;
+      if (email != other.email) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (Name.Length != 0) hash ^= Name.GetHashCode();
-      if (Id != 0) hash ^= Id.GetHashCode();
-      if (Email.Length != 0) hash ^= Email.GetHashCode();
+      if (name.Length != 0) hash ^= name.GetHashCode();
+      if (id != 0) hash ^= id.GetHashCode();
+      if (email.Length != 0) hash ^= email.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -143,17 +143,17 @@ namespace Contract {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (Name.Length != 0) {
+      if (name.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteString(Name);
+        output.WriteString(name);
       }
-      if (Id != 0) {
+      if (id != 0) {
         output.WriteRawTag(16);
-        output.WriteInt32(Id);
+        output.WriteInt32(id);
       }
-      if (Email.Length != 0) {
+      if (email.Length != 0) {
         output.WriteRawTag(26);
-        output.WriteString(Email);
+        output.WriteString(email);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -163,14 +163,14 @@ namespace Contract {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (Name.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+      if (name.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(name);
       }
-      if (Id != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Id);
+      if (id != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(id);
       }
-      if (Email.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Email);
+      if (email.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(email);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -183,14 +183,14 @@ namespace Contract {
       if (other == null) {
         return;
       }
-      if (other.Name.Length != 0) {
-        Name = other.Name;
+      if (other.name.Length != 0) {
+        name = other.name;
       }
-      if (other.Id != 0) {
-        Id = other.Id;
+      if (other.id != 0) {
+        id = other.id;
       }
-      if (other.Email.Length != 0) {
-        Email = other.Email;
+      if (other.email.Length != 0) {
+        email = other.email;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -204,15 +204,15 @@ namespace Contract {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            Name = input.ReadString();
+            name = input.ReadString();
             break;
           }
           case 16: {
-            Id = input.ReadInt32();
+            id = input.ReadInt32();
             break;
           }
           case 26: {
-            Email = input.ReadString();
+            email = input.ReadString();
             break;
           }
         }

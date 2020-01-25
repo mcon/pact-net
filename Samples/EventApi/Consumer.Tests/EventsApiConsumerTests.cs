@@ -347,5 +347,36 @@ namespace Consumer.Tests
 
             _mockProviderService.VerifyInteractions();
         }
+        
+        // Exercises Pact protobuf functionality
+        [Fact]
+        public void GetPersonOne_WhenPersonExists()
+        {
+            // Arrange
+            var expectedPerson = new Contract.Person {email = "foo@bar.com", id = 1, name = "Foo"};
+            _mockProviderService.Given("A person exists")
+                .UponReceiving("A request to retrieve the person")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Get,
+                    Path = "/api/values",
+                })
+                .WillRespondWith(new ProviderServiceResponse
+                {
+                    Status = 200,
+                    Headers = new Dictionary<string, object>
+                    {
+                        { "Content-Type", "application/json" } // TODO: Support non-application/json headers
+                    },
+                    Body = expectedPerson
+                });
+            var consumer = new EventsApiClient(_mockProviderServiceBaseUri);
+            
+            // Act
+            var person = consumer.GetPerson();
+
+            // Assert
+            Assert.Equal(person, expectedPerson);
+        }
     }
 }

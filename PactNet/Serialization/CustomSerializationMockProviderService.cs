@@ -24,8 +24,8 @@ namespace ProtobufPactMockWrapper
             int port, bool enableSsl, string consumerName, string providerName, PactConfig config, IPAddress ipAddress, 
             Newtonsoft.Json.JsonSerializerSettings jsonSerializerSettings, string sslCert, string sslKeys)
         {
-            RubyCoreBaseUri = new Uri( $"{(enableSsl ? "https" : "http")}://localhost:{port}");
-            CustomSerializationProxyBaseUri = new Uri( $"{(enableSsl ? "https" : "http")}://localhost:{port+1}");
+            RubyCoreBaseUri = new Uri( $"{(enableSsl ? "https" : "http")}://localhost:{port+1}");
+            CustomSerializationProxyBaseUri = new Uri( $"{(enableSsl ? "https" : "http")}://localhost:{port}");
             _adminHttpClient = new AdminHttpClient(CustomSerializationProxyBaseUri, jsonSerializerSettings);
             _host = new CustomSerializationHttpHost(
                 CustomSerializationProxyBaseUri, RubyCoreBaseUri, consumerName, providerName, config, 

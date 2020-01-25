@@ -7,6 +7,25 @@
   },
   "interactions": [
     {
+      "description": "A request to retrieve the person",
+      "providerState": "A person exists",
+      "request": {
+        "method": "get",
+        "path": "/api/values"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "Foo",
+          "id": 1,
+          "email": "foo@bar.com"
+        }
+      }
+    },
+    {
       "description": "a request to retrieve events with type 'DetailsView'",
       "providerState": "there is one event with type 'DetailsView'",
       "request": {
@@ -139,7 +158,7 @@
         "body": {
           "eventId": "83f9262f-28f1-4703-ab1a-8cfd9e8249c9",
           "eventType": "DetailsView",
-          "timestamp": "2020-01-20T14:32:33.7238618Z"
+          "timestamp": "2020-01-25T19:53:35.6652256Z"
         },
         "matchingRules": {
           "$.headers.Server": {

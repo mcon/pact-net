@@ -73,7 +73,6 @@ namespace ProtobufPactMockWrapper
                 throw new PactFailureException("Could not start the Pact Core Host");
             }
 
-            
             // TODO: Actually perform healthcheck - sleep for now
             Thread.Sleep(3000);
         }

@@ -14,12 +14,11 @@ namespace Provider.Api.Web.Controllers
         {
             var person = new Person
             {
-                Name = "foo",
-                Id = 1,
-                Email = "foo@bar.com",
+                name = "Foo",
+                id = 1,
+                email = "foo@bar.com",
             };
-            // TODO: Need to handle non "application-json" contentType in the serialization proxy.
-            return File(person.ToByteArray(), "application/json");
+            return File(person.ToByteArray(), "application/json"); // TODO: Support non-application/json headers
         }
     }
 }

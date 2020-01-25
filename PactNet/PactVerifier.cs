@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using PactNet.Core;
 using static System.String;
 using System.Collections.Generic;
@@ -193,6 +193,7 @@ namespace PactNet
             {
                 foreach (var output in _config.Outputters)
                 {
+                    Console.WriteLine(line);
                     output.WriteLine(line);
                 }
             }

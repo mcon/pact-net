@@ -35,8 +35,17 @@ namespace Provider.Api.Web.Tests
                 {
                     "There is a something with id 'tester'",
                     InsertEventsIntoDatabase
+                },
+                {
+                    "A person exists",
+                    DoNothing
                 }
             };
+        }
+
+        private void DoNothing()
+        {
+            
         }
 
         private void InsertEventsIntoDatabase()

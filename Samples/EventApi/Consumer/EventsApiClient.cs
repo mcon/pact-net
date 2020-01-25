@@ -223,9 +223,9 @@ namespace Consumer
             }
         }
         
-        public Contract.Person GetPerson(int? number)
+        public Contract.Person GetPerson()
         {
-            var query = "/api/values" + (number == null ? "" : number.ToString());
+            var query = "/api/values";
             var request = new HttpRequestMessage(HttpMethod.Get, query);
 
             var response = _httpClient.SendAsync(request);
